@@ -1,0 +1,58 @@
+{
+  "_comment1": "这里只是用作给https://raw.githubusercontent.com/chenzhizsqq/testJson/main/db.json，测试一下json格式是否正确而已。不是用这里的",
+  "posts": [
+    {
+      "id": 1,
+      "title": "hello11111"
+    },
+    {
+      "id": 2,
+      "title": "Post 22222"
+    },
+    {
+      "id": 3,
+      "title": "Post 3"
+    },
+    {
+      "id": 4,
+      "title": "hello11111"
+    },
+    {
+      "id": 5,
+      "title": "Post 22222"
+    },
+    {
+      "id": 6,
+      "title": "Post 3"
+    },
+    {
+      "id": 7,
+      "title": "Post 3"
+    },
+    {
+      "id": 8,
+      "title": "hello11111"
+    },
+    {
+      "id": 9,
+      "title": "Post 22222"
+    },
+    {
+      "id": 10,
+      "title": "Post 3"
+    }
+  ],
+  "test": {
+    "id": 333,
+    "title": "fdsafdsaf333"
+  },
+  "get": [
+    {
+      "id": 1321,
+      "title": "hello2222"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
