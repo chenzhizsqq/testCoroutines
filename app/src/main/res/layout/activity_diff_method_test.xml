@@ -47,6 +47,15 @@ tools:context=".runBlocking_launch_withContext_async_doAsync.DiffMethodTestActiv
         android:padding="20dp"
         android:background="@drawable/back"
         android:text="对比withContext 与 async：Async" />
+
+    <TextView
+        android:id="@+id/await_after_async"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="把await()方法的调用提前到 async 的后面" />
 </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
