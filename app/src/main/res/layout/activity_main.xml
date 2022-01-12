@@ -19,7 +19,7 @@ tools:context=".MainActivity">
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:background="@drawable/back"
-        android:text="测试" />
+        android:text="自己普通测试练习" />
 
     <TextView
         android:id="@+id/runBlocking_launch_withContext_async_doAsync"
