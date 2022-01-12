@@ -10,8 +10,8 @@
     </queries>
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestCoroutines">
         <activity
-            android:name=".test.TestActivity"
+            android:name=".runBlocking_launch_withContext_async_doAsync.DiffMethodTestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".test.TestActivity"
             android:exported="true" />
     </application>
 
