@@ -4,7 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.*
 
 class test1 {
-    fun withContext_async(){
+    fun withContext_async() {
         CoroutineScope(Dispatchers.Main).launch {
             val time1 = System.currentTimeMillis()
 
@@ -20,7 +20,10 @@ class test1 {
                 "two"  //返回结果赋值给task2
             }
 
-            Log.e("TAG", "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]")
+            Log.e(
+                "TAG",
+                "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+            )
         }
     }
 }

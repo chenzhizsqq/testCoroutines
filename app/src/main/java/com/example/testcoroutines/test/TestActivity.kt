@@ -15,7 +15,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 
 
 class TestActivity : AppCompatActivity() {
@@ -51,7 +50,7 @@ class TestActivity : AppCompatActivity() {
 
         //observe观察。这里意思就是movieLiveData被观察中，一旦postsLiveData接收数据，就会做出相对应的操作
         viewModel.postsDataList.observe(this, {
-            testPostsAdapter.notifyDataAddData(it  as ArrayList<PostsData>)
+            testPostsAdapter.notifyDataAddData(it as ArrayList<PostsData>)
         })
 
         //观察是否正在读取数据，做出不同的操作
@@ -84,7 +83,8 @@ class TestActivity : AppCompatActivity() {
                     //向上滚动，滚到最后一个后，添加发信
                     if (totalItemCount != null) {
                         if (viewModel.isLoading.value == false
-                            && totalItemCount == lastVisibleItemPosition + 1) {
+                            && totalItemCount == lastVisibleItemPosition + 1
+                        ) {
                             viewModel.isLoading.value = true
                             Log.d(TAG, "onScrollStateChanged: 滚动，获取更多 : jsonGetPosts(1)")
                             jsonGetEachPosts(1)
@@ -92,9 +92,9 @@ class TestActivity : AppCompatActivity() {
                     }
                 } else {
 
-                    if (viewModel.isLoading.value == false){
+                    if (viewModel.isLoading.value == false) {
                         viewModel.isLoading.value = true
-                        Log.d(TAG, "滚动，空数据时的状态" )
+                        Log.d(TAG, "滚动，空数据时的状态")
                         jsonGetFirstPosts(5)
                     }
                 }
@@ -126,7 +126,7 @@ class TestActivity : AppCompatActivity() {
             binding.swipeRefreshLayout.isRefreshing = false
             testPostsAdapter.notifyDatClearData()
             arrayIndex = 0
-            Log.d(TAG, "onCreate: 重新获取数据 : jsonGetPosts(5)" )
+            Log.d(TAG, "onCreate: 重新获取数据 : jsonGetPosts(5)")
             viewModel.isLoading.value = true
             jsonGetFirstPosts(5)
         }
@@ -176,7 +176,7 @@ class TestActivity : AppCompatActivity() {
 
     //https://github.com/chenzhizsqq/testJson/blob/main/db.json，"posts"那组数
     private fun jsonGetAllPosts() {
-        Log.e(TAG, "jsonGetAllPosts: !!!" )
+        Log.e(TAG, "jsonGetAllPosts: !!!")
         val retrofit = Retrofit.Builder()
             .baseUrl("https://my-json-server.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create()) //把json转为gson，才可以直接用LiveData.postValue
@@ -196,8 +196,8 @@ class TestActivity : AppCompatActivity() {
                         viewModel.postsDataList.postValue(response.body())
 
                         viewModel.isLoading.value = false
-                    }catch (e:Exception){
-                        Log.e(TAG, "jsonGetPosts: ",e )
+                    } catch (e: Exception) {
+                        Log.e(TAG, "jsonGetPosts: ", e)
                     }
                 } else {
                     Log.e(TAG, "jsonGetPosts: error:" + response.message())
@@ -209,7 +209,7 @@ class TestActivity : AppCompatActivity() {
     var arrayIndex = 0
 
     //初始化时，获取的数据
-    private fun jsonGetFirstPosts(add:Int) {
+    private fun jsonGetFirstPosts(add: Int) {
         arrayIndex = 0
 
         val retrofit = Retrofit.Builder()
@@ -224,12 +224,12 @@ class TestActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     var lastIndex = arrayIndex + add
-                    if (lastIndex > response.body()!!.size){
+                    if (lastIndex > response.body()!!.size) {
                         lastIndex = response.body()!!.size
                     }
 
-                    Log.e(TAG, "jsonGetPosts: lastIndex :"+lastIndex )
-                    val mArrayList =ArrayList(response.body()?.subList(arrayIndex,lastIndex))
+                    Log.e(TAG, "jsonGetPosts: lastIndex :" + lastIndex)
+                    val mArrayList = ArrayList(response.body()?.subList(arrayIndex, lastIndex))
 
                     //因为上面用上了.addConverterFactory，才可以直接联系LiveData.postValue。发送数据给postsLiveData
                     viewModel.postsDataList.postValue(mArrayList)
@@ -244,7 +244,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     //初始化后，获取的个别数据
-    private fun jsonGetEachPosts(add:Int) {
+    private fun jsonGetEachPosts(add: Int) {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://my-json-server.typicode.com/")
@@ -257,16 +257,20 @@ class TestActivity : AppCompatActivity() {
             val response = service.getResponsePosts()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    if (arrayIndex >=  response.body()!!.size) {
-                        Toast.makeText(this@TestActivity, "arrayIndex >  response.body()!!.size", Toast.LENGTH_SHORT).show()
-                    }else{
+                    if (arrayIndex >= response.body()!!.size) {
+                        Toast.makeText(
+                            this@TestActivity,
+                            "arrayIndex >  response.body()!!.size",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
                         var lastIndex = arrayIndex + add
-                        if (lastIndex > response.body()!!.size){
+                        if (lastIndex > response.body()!!.size) {
                             lastIndex = response.body()!!.size
                         }
 
-                        Log.e(TAG, "jsonGetPosts: lastIndex :"+lastIndex )
-                        val mArrayList =ArrayList(response.body()?.subList(arrayIndex,lastIndex))
+                        Log.e(TAG, "jsonGetPosts: lastIndex :" + lastIndex)
+                        val mArrayList = ArrayList(response.body()?.subList(arrayIndex, lastIndex))
 
                         //因为上面用上了.addConverterFactory，才可以直接联系LiveData.postValue。发送数据给postsLiveData
                         viewModel.postsDataList.postValue(mArrayList)
@@ -285,7 +289,7 @@ class TestActivity : AppCompatActivity() {
     fun test() = runBlocking {
 
         val result = arrayListOf<Int>()
-        for (index in 1..100){
+        for (index in 1..100) {
             result.add(index)
         }
 
@@ -300,7 +304,7 @@ class TestActivity : AppCompatActivity() {
             }
     }
 
-    fun withContext_async(){
+    fun withContext_async() {
         CoroutineScope(Dispatchers.Main).launch {
             val time1 = System.currentTimeMillis()
 
@@ -316,11 +320,14 @@ class TestActivity : AppCompatActivity() {
                 "two"  //返回结果赋值给task2
             }
 
-            Log.e("TAG", "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]")
+            Log.e(
+                "TAG",
+                "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+            )
         }
     }
 
-    fun async_await(){
+    fun async_await() {
         CoroutineScope(Dispatchers.Main).launch {
             val time1 = System.currentTimeMillis()
 
@@ -336,7 +343,10 @@ class TestActivity : AppCompatActivity() {
                 "two"  //返回结果赋值给task2
             }
 
-            Log.e("TAG", "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]")
+            Log.e(
+                "TAG",
+                "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+            )
         }
     }
 }

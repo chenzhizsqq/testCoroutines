@@ -1,9 +1,9 @@
 package com.example.testcoroutines
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.testcoroutines.databinding.ActivityMainBinding
 import com.example.testcoroutines.runBlocking_launch_withContext_async_doAsync.DiffMethodTestActivity
 import com.example.testcoroutines.test.TestActivity
@@ -14,8 +14,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.test.setOnClickListener (this)
-        binding.runBlockingLaunchWithContextAsyncDoAsync.setOnClickListener (this)
+        binding.test.setOnClickListener(this)
+        binding.runBlockingLaunchWithContextAsyncDoAsync.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {

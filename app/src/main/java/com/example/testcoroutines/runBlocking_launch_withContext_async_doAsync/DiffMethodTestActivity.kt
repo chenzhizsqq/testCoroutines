@@ -15,34 +15,33 @@ class DiffMethodTestActivity : AppCompatActivity() {
         binding = ActivityDiffMethodTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //lauch 是非阻塞的
+        binding.testLauch.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(500)     //延时500ms
+                Log.e("TAG", "1.执行CoroutineScope.... [当前线程为：${Thread.currentThread().name}]")
+            }
+            Log.e("TAG", "2.BtnClick.... [当前线程为：${Thread.currentThread().name}]")
+        }
         /*
         2.BtnClick.... [当前线程为：main]
         1.执行CoroutineScope.... [当前线程为：main]
          */
-        binding.testLauch.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch{
-                delay(500)     //延时500ms
-                Log.e("TAG","1.执行CoroutineScope.... [当前线程为：${Thread.currentThread().name}]")
+
+
+        //runBlocking 是阻塞的
+        // runBlocking里的任务如果是非常耗时的操作时，会一直阻塞当前线程，在实际开发中很少会用到runBlocking。
+        binding.runBlocking.setOnClickListener {
+            runBlocking {
+                delay(500)    //延时500ms
+                Log.e("TAG", "1.runBlocking.... [当前线程为：${Thread.currentThread().name}]")
             }
-            Log.e("TAG","2.BtnClick.... [当前线程为：${Thread.currentThread().name}]")
+            Log.e("TAG", "2.BtnClick.... [当前线程为：${Thread.currentThread().name}]")
         }
-        //lauch 是非阻塞的
-
-
-
         /*
         1.runBlocking.... [当前线程为：main]
         2.BtnClick.... [当前线程为：main]
          */
-        binding.runBlocking.setOnClickListener{
-            runBlocking{
-                delay(500)    //延时500ms
-                Log.e("TAG","1.runBlocking.... [当前线程为：${Thread.currentThread().name}]")
-            }
-            Log.e("TAG","2.BtnClick.... [当前线程为：${Thread.currentThread().name}]")
-        }
-        //runBlocking 是阻塞的
-        // runBlocking里的任务如果是非常耗时的操作时，会一直阻塞当前线程，在实际开发中很少会用到runBlocking。
 
 
         /**
@@ -50,11 +49,7 @@ class DiffMethodTestActivity : AppCompatActivity() {
          */
 
         //withContext 与 async 的对比:withContext
-        /*
-        1.执行task1.... [当前线程为：DefaultDispatcher-worker-1]
-        2.执行task2.... [当前线程为：DefaultDispatcher-worker-3]
-        task1 = one  , task2 = two , 耗时 3020 ms  [当前线程为：main]
-         */
+        //多个 withContext 任务是串行的
         binding.withContextAsyncWithContext.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 val time1 = System.currentTimeMillis()
@@ -71,18 +66,21 @@ class DiffMethodTestActivity : AppCompatActivity() {
                     "two"  //返回结果赋值给task2
                 }
 
-                Log.e("TAG", "task1 = $task1  , task2 = $task2 , 耗时 ${System.currentTimeMillis()-time1} ms  [当前线程为：${Thread.currentThread().name}]")
+                Log.e(
+                    "TAG",
+                    "task1 = $task1  , task2 = $task2 , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+                )
             }
         }
-        //多个 withContext 任务是串行的
+        /*
+        1.执行task1.... [当前线程为：DefaultDispatcher-worker-1]
+        2.执行task2.... [当前线程为：DefaultDispatcher-worker-3]
+        task1 = one  , task2 = two , 耗时 3020 ms  [当前线程为：main]
+         */
 
 
         //withContext 与 async 的对比:async
-        /*
-        2.执行task2.... [当前线程为：DefaultDispatcher-worker-2]
-        1.执行task1.... [当前线程为：DefaultDispatcher-worker-2]
-        task1 = one  , task2 = two , 耗时 2011 ms  [当前线程为：main]
-         */
+        //多个 withContext 任务是并行的
         binding.withContextAsyncAsync.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 val time1 = System.currentTimeMillis()
@@ -99,19 +97,22 @@ class DiffMethodTestActivity : AppCompatActivity() {
                     "two"  //返回结果赋值给task2
                 }
 
-                Log.e("TAG", "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]")
+                Log.e(
+                    "TAG",
+                    "task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+                )
             }
         }
-        //多个 withContext 任务是并行的
-
-
+        /*
+        2.执行task2.... [当前线程为：DefaultDispatcher-worker-2]
+        1.执行task1.... [当前线程为：DefaultDispatcher-worker-2]
+        task1 = one  , task2 = two , 耗时 2011 ms  [当前线程为：main]
+         */
 
 
         //把await()方法的调用提前到 async 的后面
         /*
-        1.执行task1.... [当前线程为：DefaultDispatcher-worker-1]
-        2.执行task2.... [当前线程为：DefaultDispatcher-worker-3]
-        task1 = one  , task2 = two , 耗时 3017 ms  [当前线程为：main]
+        当次async协程有问题的时候，才会挂起，运行其他的协程。
          */
         binding.awaitAfterAsync.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
@@ -129,17 +130,19 @@ class DiffMethodTestActivity : AppCompatActivity() {
                     "two"  //返回结果赋值给task2
                 }.await()
 
-                Log.e("TAG", "task1 = $task1 " +
-                        " , task2 = $task2 " +
-                        ", 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]")
+                Log.e(
+                    "TAG", "task1 = $task1 " +
+                            " , task2 = $task2 " +
+                            ", 耗时 ${System.currentTimeMillis() - time1} ms  [当前线程为：${Thread.currentThread().name}]"
+                )
             }
         }
-        //此时的结果居然和使用withContext几乎差不多
         /*
-        当次async协程有问题的时候，才会挂起，运行其他的协程。
-        await() 只有在 async 未执行完成返回结果时，才会挂起协程。
-        若 async 已经有结果了，await() 则直接获取其结果并赋值给变量，此时不会挂起协程。
+        1.执行task1.... [当前线程为：DefaultDispatcher-worker-1]
+        2.执行task2.... [当前线程为：DefaultDispatcher-worker-3]
+        task1 = one  , task2 = two , 耗时 3017 ms  [当前线程为：main]
          */
+        //此时的结果居然和使用withContext几乎差不多
 
 
     }
