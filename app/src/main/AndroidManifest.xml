@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestCoroutines">
         <activity
+            android:name=".coroutines_flow.CoroutinesFlowActivity"
+            android:exported="true" />
+        <activity
             android:name=".runBlocking_launch_withContext_async_doAsync.DiffMethodTestActivity"
             android:exported="true" />
         <activity
