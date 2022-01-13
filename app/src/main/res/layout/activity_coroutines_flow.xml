@@ -14,13 +14,37 @@ tools:context=".coroutines_flow.CoroutinesFlowActivity">
     android:focusableInTouchMode="true"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/test"
+        android:id="@+id/flow_Cold_Stream"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:padding="20dp"
         android:background="@drawable/back"
         android:text="test" />
+    <TextView
+        android:id="@+id/channel_Hot_Stream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="channel 是 Hot Stream" />
+    <TextView
+        android:id="@+id/flow_builder_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="相比于 RxJava 需要使用 observeOn、subscribeOn 来切换线程，flow 会更加简单。只需使用 flowOn，下面的例子中，展示了 flow builder 和 map 操作符都会受到 flowOn 的影响。" />
+    <TextView
+        android:id="@+id/flow_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="flow_cancel" />
 </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

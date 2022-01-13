@@ -18,6 +18,7 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:textSize="20sp"
         android:background="@drawable/back"
         android:text="自己普通测试练习" />
 
@@ -26,6 +27,7 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:textSize="20sp"
         android:background="@drawable/back"
         android:text="runBlocking， launch ，withContext ，async，doAsync 之间的简单区别" />
 
@@ -34,6 +36,7 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:textSize="20sp"
         android:background="@drawable/back"
         android:text="coroutines的flow" />
 
