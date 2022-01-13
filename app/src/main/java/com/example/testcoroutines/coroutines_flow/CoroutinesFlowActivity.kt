@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.testcoroutines.databinding.ActivityCoroutinesFlowBinding
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import java.util.concurrent.Executors
 import kotlin.system.measureTimeMillis
 
 //https://www.jianshu.com/p/fe1293e8f15c
@@ -92,6 +93,30 @@ class CoroutinesFlowActivity : AppCompatActivity() {
         binding.flowAllPartCoroutineScope.text = "flow所有部分都加上去了。（没有错误的CoroutineScope状态下）"
         binding.flowAllPartCoroutineScope.setOnClickListener {
             flowAllPartCoroutineScope()
+        }
+
+
+        binding.SetTask.text = "flow builder 和 map 操作符都会受到flowOn的影响，并使用 Dispatchers.io 线程池。"
+        binding.SetTask.setOnClickListener {
+            SetTask()
+        }
+
+
+        binding.SetDoubleTask.text = "flow builder 和两个 map 操作符都会受到两个flowOn的影响"
+        binding.SetDoubleTask.setOnClickListener {
+            SetDoubleTask()
+        }
+
+
+        binding.Concurrency.text = "并发:是指一个处理器同时处理多个任务。排列一致"
+        binding.Concurrency.setOnClickListener {
+            Concurrency()
+        }
+
+
+        binding.Parallelism.text = "并行:是多个处理器或者是多核的处理器同时处理多个不同的任务。排列不同"
+        binding.Parallelism.setOnClickListener {
+            Parallelism()
         }
 
 
@@ -301,15 +326,15 @@ class CoroutinesFlowActivity : AppCompatActivity() {
 
     // onCompletion 不能捕获异常，只能用于判断是否有异常。
     fun onCompletionTest() = runBlocking {
-            flow {
-                emit(1)
-                throw RuntimeException()
-            }.onCompletion { cause ->
-                if (cause != null)
-                    Log.e(TAG, "onCompletionTest: Flow completed exceptionally")
-                else
-                    Log.e(TAG, "onCompletionTest: Done")
-            }.collect { Log.e(TAG, "onCompletionTest: $it") }
+        flow {
+            emit(1)
+            throw RuntimeException()
+        }.onCompletion { cause ->
+            if (cause != null)
+                Log.e(TAG, "onCompletionTest: Flow completed exceptionally")
+            else
+                Log.e(TAG, "onCompletionTest: Done")
+        }.collect { Log.e(TAG, "onCompletionTest: $it") }
     }
     /*
     CoroutinesFlowActivity: onCompletionTest: 1
@@ -330,7 +355,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
                 else
                     Log.e(TAG, "onCompletionCatch: Done")
             }
-            .catch{ Log.e(TAG, "onCompletionCatch: catch exception") }
+            .catch { Log.e(TAG, "onCompletionCatch: catch exception") }
             .collect { Log.e(TAG, "onCompletionCatch: $it") }
     }
     /*
@@ -347,7 +372,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
             emit(1)
             throw RuntimeException()
         }
-            .catch{ Log.e(TAG, "onCompletionCatchFirst: catch exception") }
+            .catch { Log.e(TAG, "onCompletionCatchFirst: catch exception") }
             .onCompletion { cause ->
                 if (cause != null)
                     Log.e(TAG, "onCompletionCatchFirst: Flow completed exceptionally")
@@ -369,15 +394,15 @@ class CoroutinesFlowActivity : AppCompatActivity() {
             for (i in 1..5) {
                 delay(100)
                 emit(i)
-                if (i==3){
+                if (i == 3) {
                     throw RuntimeException()
                 }
             }
         }
             .onEach {
-                Log.e(TAG, "onCompletionCatchFirstEach: onEach $it" )
+                Log.e(TAG, "onCompletionCatchFirstEach: onEach $it")
             }
-            .catch{ Log.e(TAG, "onCompletionCatchFirstEach: catch exception") }
+            .catch { Log.e(TAG, "onCompletionCatchFirstEach: catch exception") }
             .onCompletion { cause ->
                 if (cause != null)
                     Log.e(TAG, "onCompletionCatchFirstEach: Flow completed exceptionally")
@@ -406,7 +431,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
             for (i in 1..5) {
                 delay(100)
                 emit(i)
-                if (i==3){
+                if (i == 3) {
                     throw RuntimeException("Error on $i")
                 }
             }
@@ -476,4 +501,153 @@ class CoroutinesFlowActivity : AppCompatActivity() {
     flowAllPartCoroutineScope: Flow completed
      */
 
+    //flow builder 和 map 操作符都会受到flowOn的影响，并使用 Dispatchers.io 线程池。
+    fun SetTask() = runBlocking {
+        Log.e(TAG, "SetTask begin: Thread:${Thread.currentThread().name}")
+
+        flow {
+            for (i in 1..5) {
+                Log.e(TAG, "SetTask flow: Thread:${Thread.currentThread().name}")
+                delay(100)
+                emit(i)
+            }
+        }.map {
+            it * it
+        }.flowOn(Dispatchers.IO)
+            .collect {
+                Log.e(TAG, "SetTask flowOn: Thread:${Thread.currentThread().name}: $it")
+            }
+    }
+    /*
+    SetTask begin: Thread:main
+    SetTask flow: Thread:DefaultDispatcher-worker-1
+    SetTask flow: Thread:DefaultDispatcher-worker-1
+    SetTask flowOn: Thread:main: 1
+    SetTask flow: Thread:DefaultDispatcher-worker-1
+    SetTask flowOn: Thread:main: 4
+    SetTask flow: Thread:DefaultDispatcher-worker-1
+    SetTask flowOn: Thread:main: 9
+    SetTask flow: Thread:DefaultDispatcher-worker-1
+    SetTask flowOn: Thread:main: 16
+    SetTask flowOn: Thread:main: 25
+     */
+
+
+    //flow builder 和两个 map 操作符都会受到两个flowOn的影响，
+    // 其中 flow builder 和第一个 map 操作符跟上面的例子一样，
+    // 第二个 map 操作符会切换到指定的 customerDispatcher 线程池。
+    val customerDispatcher = Executors.newFixedThreadPool(5).asCoroutineDispatcher()
+    fun SetDoubleTask() = runBlocking {
+
+        flow {
+            for (i in 1..5) {
+                delay(100)
+                emit(i)
+                Log.e(TAG, " SetDoubleTask start: Thread: ${Thread.currentThread().name}")
+            }
+        }.map {
+            it * it
+            Log.e(TAG, " SetDoubleTask map 1 : Thread: ${Thread.currentThread().name}")
+        }.flowOn(Dispatchers.IO)
+            .map {
+                it+1
+                Log.e(TAG, " SetDoubleTask map 2 : Thread: ${Thread.currentThread().name}")
+            }
+            .flowOn(customerDispatcher)
+            .collect {
+                Log.e(TAG, " SetDoubleTask collect: Thread: ${Thread.currentThread().name}")
+            }
+    }
+    /*
+    map 1 : Thread: DefaultDispatcher-worker-1
+    start: Thread: DefaultDispatcher-worker-1
+    map 2 : Thread: pool-2-thread-2
+    collect: Thread: main
+    map 1 : Thread: DefaultDispatcher-worker-1
+    start: Thread: DefaultDispatcher-worker-1
+    map 2 : Thread: pool-2-thread-3
+    collect: Thread: main
+    map 1 : Thread: DefaultDispatcher-worker-1
+    start: Thread: DefaultDispatcher-worker-1
+    map 2 : Thread: pool-2-thread-4
+    collect: Thread: main
+    map 1 : Thread: DefaultDispatcher-worker-1
+    start: Thread: DefaultDispatcher-worker-1
+    map 2 : Thread: pool-2-thread-5
+    collect: Thread: main
+    map 1 : Thread: DefaultDispatcher-worker-1
+    start: Thread: DefaultDispatcher-worker-1
+    map 2 : Thread: pool-2-thread-1
+    collect: Thread: main
+     */
+
+
+    /**
+     * 并发操作 和 并行操作
+     *
+     * 并发(concurrency)：是指一个处理器同时处理多个任务。
+     * 并行(parallelism)：是多个处理器或者是多核的处理器同时处理多个不同的任务。
+     * 并行是同时发生的多个并发事件，具有并发的含义，而并发则不一定是并行。
+     */
+
+    //并发，排列一致
+    fun Concurrency() = runBlocking {
+
+        var test = 1
+        val time = measureTimeMillis {
+            flow {
+                for (i in 1..100) {
+                    emit(i)
+                }
+            }
+                .buffer()
+                .collect {
+                    Log.e(TAG, "Concurrency: $it")
+
+                    if (test!=it){
+                        Log.e(TAG, "Parallelism: test : $test")
+                    }
+                    test++
+                }
+        }
+        Log.e(TAG, "Concurrency: Collected in $time ms")
+    }
+    /*
+    ...
+    Concurrency: Collected in 17 ms
+     */
+
+
+    //并行，排列不一致
+    fun Parallelism() = runBlocking {
+
+        val result = arrayListOf<Int>()
+        for (index in 1..100){
+            result.add(index)
+        }
+
+        var test = 1
+        val time = measureTimeMillis {
+        result.asFlow()
+            .flatMapMerge {
+                flow {
+                    emit(it)
+                }
+                    .flowOn(Dispatchers.IO)
+            }
+            .collect {
+                Log.e(TAG, "Parallelism: collect : $it")
+
+                if (test!=it){
+                    Log.e(TAG, "Parallelism: test : $test")
+                }
+                test++
+            }
+        }
+        Log.e(TAG, "Parallelism: Collected in $time ms")
+    }
+    /*
+    ...
+    Parallelism: Collected in 50 ms
+     */
 }

@@ -136,6 +136,43 @@ tools:context=".coroutines_flow.CoroutinesFlowActivity">
         android:background="@drawable/back"
         android:text="flowAllPartCoroutineScope" />
 
+    <TextView
+        android:id="@+id/SetTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="SetTask" />
+
+    <TextView
+        android:id="@+id/SetDoubleTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="SetDoubleTask" />
+
+    <TextView
+        android:id="@+id/Concurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="Concurrency" />
+
+    <TextView
+        android:id="@+id/Parallelism"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="Parallelism" />
+
+
 
 
 
