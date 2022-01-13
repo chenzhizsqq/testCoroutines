@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testcoroutines.databinding.ActivityTestBinding
@@ -24,12 +25,23 @@ class TestActivity : AppCompatActivity() {
     //Adapter被绑定的对象，用作被recyclerview的绑定
     private val testPostsAdapter = TestPostsAdapter()
 
-    private val viewModel = TestViewModel()
+    //private val viewModel = TestViewModel()       //不建议的创建模式
+    lateinit var viewModel: TestViewModel          //建议的创建模式
+
+    //private val viewModel2 = TestViewModel2(1)    //不建议的创建模式
+    lateinit var viewModel2: TestViewModel2        //建议的创建模式
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //viewModel连接ViewModelProvider，普通创建
+        viewModel = ViewModelProvider(this).get(TestViewModel::class.java)
+
+        //viewModel连接ViewModelProvider，带上ViewModelFactory的创建
+        viewModel2 =
+            ViewModelProvider(this, TestViewModel2Factory(1)).get(TestViewModel2::class.java)
 
         binding.jsonTestButton.setOnClickListener {
             jsonGet()
