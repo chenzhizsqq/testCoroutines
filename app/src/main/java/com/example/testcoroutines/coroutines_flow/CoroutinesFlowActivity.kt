@@ -77,6 +77,24 @@ class CoroutinesFlowActivity : AppCompatActivity() {
         }
 
 
+        binding.flowAllPart.text = "flow所有部分都加上去了。"
+        binding.flowAllPart.setOnClickListener {
+            flowAllPart()
+        }
+
+
+        binding.flowAllPartNoError.text = "flow所有部分都加上去了。（没有错误的状态下）"
+        binding.flowAllPartNoError.setOnClickListener {
+            flowAllPartNoError()
+        }
+
+
+        binding.flowAllPartCoroutineScope.text = "flow所有部分都加上去了。（没有错误的CoroutineScope状态下）"
+        binding.flowAllPartCoroutineScope.setOnClickListener {
+            flowAllPartCoroutineScope()
+        }
+
+
 
 
 
@@ -378,4 +396,84 @@ class CoroutinesFlowActivity : AppCompatActivity() {
     onCompletionCatchFirstEach: catch exception
     onCompletionCatchFirstEach: Done
      */
+
+
+    //Flow已经很齐全了，真的和RxJava没什么区别了。
+    //Flow 并没有多那么丰富的操作符来监听其生命周期的各个阶段，目前只有 onStart、onCompletion 来监听 Flow 的创建和结束。
+    fun flowAllPart() = runBlocking {
+
+        flow {
+            for (i in 1..5) {
+                delay(100)
+                emit(i)
+                if (i==3){
+                    throw RuntimeException("Error on $i")
+                }
+            }
+        }
+            .onStart { Log.e(TAG, "flowAllPart: Starting flow") }
+            .onEach { Log.e(TAG, "flowAllPart: On each $it") }
+            .catch { Log.e(TAG, "flowAllPart: Exception : ${it.message}") }
+            .onCompletion { Log.e(TAG, "flowAllPart: Flow completed") }
+            .collect()
+    }
+    /*
+    flowAllPart: Starting flow
+    flowAllPart: On each 1
+    flowAllPart: On each 2
+    flowAllPart: On each 3
+    flowAllPart: Exception : Error on 3
+    flowAllPart: Flow completed
+     */
+
+
+    //上面例子中，在没有错误的状态下
+    fun flowAllPartNoError() = runBlocking {
+        flow {
+            for (i in 1..5) {
+                delay(100)
+                emit(i)
+            }
+        }
+            .onStart { Log.e(TAG, "flowAllPartNoError: Starting flow") }
+            .onEach { Log.e(TAG, "flowAllPartNoError: On each $it") }
+            .catch { Log.e(TAG, "flowAllPartNoError: Exception : ${it.message}") }
+            .onCompletion { Log.e(TAG, "flowAllPartNoError: Flow completed") }
+            .collect()
+    }
+    /*
+    flowAllPartNoError: Starting flow
+    flowAllPartNoError: On each 1
+    flowAllPartNoError: On each 2
+    flowAllPartNoError: On each 3
+    flowAllPartNoError: On each 4
+    flowAllPartNoError: On each 5
+    flowAllPartNoError: Flow completed
+     */
+
+
+    //上面例子中，在CoroutineScope状态下
+    fun flowAllPartCoroutineScope() = CoroutineScope(Dispatchers.Main).launch {
+        flow {
+            for (i in 1..5) {
+                delay(100)
+                emit(i)
+            }
+        }
+            .onStart { Log.e(TAG, "flowAllPartCoroutineScope: Starting flow") }
+            .onEach { Log.e(TAG, "flowAllPartCoroutineScope: On each $it") }
+            .catch { Log.e(TAG, "flowAllPartCoroutineScope: Exception : ${it.message}") }
+            .onCompletion { Log.e(TAG, "flowAllPartCoroutineScope: Flow completed") }
+            .collect()
+    }
+    /*
+    flowAllPartCoroutineScope: Starting flow
+    flowAllPartCoroutineScope: On each 1
+    flowAllPartCoroutineScope: On each 2
+    flowAllPartCoroutineScope: On each 3
+    flowAllPartCoroutineScope: On each 4
+    flowAllPartCoroutineScope: On each 5
+    flowAllPartCoroutineScope: Flow completed
+     */
+
 }

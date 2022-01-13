@@ -109,8 +109,35 @@ tools:context=".coroutines_flow.CoroutinesFlowActivity">
         android:background="@drawable/back"
         android:text="onCompletionCatchFirstEach" />
 
+    <TextView
+        android:id="@+id/flowAllPart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="flowAllPart" />
 
-    onCompletionCatchFirstEach
+    <TextView
+        android:id="@+id/flowAllPartNoError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="flowAllPartNoError" />
+
+    <TextView
+        android:id="@+id/flowAllPartCoroutineScope"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="flowAllPartCoroutineScope" />
+
+
+
 
 
 
