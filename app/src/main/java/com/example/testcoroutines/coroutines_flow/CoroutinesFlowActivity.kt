@@ -120,9 +120,6 @@ class CoroutinesFlowActivity : AppCompatActivity() {
         }
 
 
-
-
-
     }
 
 
@@ -324,7 +321,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
      */
 
 
-    // onCompletion 不能捕获异常，只能用于判断是否有异常。
+    // onCompletion 不能捕获异常，这里会马上崩溃
     fun onCompletionTest() = runBlocking {
         flow {
             emit(1)
@@ -550,7 +547,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
             Log.e(TAG, " SetDoubleTask map 1 : Thread: ${Thread.currentThread().name}")
         }.flowOn(Dispatchers.IO)
             .map {
-                it+1
+                it + 1
                 Log.e(TAG, " SetDoubleTask map 2 : Thread: ${Thread.currentThread().name}")
             }
             .flowOn(customerDispatcher)
@@ -604,7 +601,7 @@ class CoroutinesFlowActivity : AppCompatActivity() {
                 .collect {
                     Log.e(TAG, "Concurrency: $it")
 
-                    if (test!=it){
+                    if (test != it) {
                         Log.e(TAG, "Parallelism: test : $test")
                     }
                     test++
@@ -622,27 +619,27 @@ class CoroutinesFlowActivity : AppCompatActivity() {
     fun Parallelism() = runBlocking {
 
         val result = arrayListOf<Int>()
-        for (index in 1..100){
+        for (index in 1..100) {
             result.add(index)
         }
 
         var test = 1
         val time = measureTimeMillis {
-        result.asFlow()
-            .flatMapMerge {
-                flow {
-                    emit(it)
+            result.asFlow()
+                .flatMapMerge {
+                    flow {
+                        emit(it)
+                    }
+                        .flowOn(Dispatchers.IO)
                 }
-                    .flowOn(Dispatchers.IO)
-            }
-            .collect {
-                Log.e(TAG, "Parallelism: collect : $it")
+                .collect {
+                    Log.e(TAG, "Parallelism: collect : $it")
 
-                if (test!=it){
-                    Log.e(TAG, "Parallelism: test : $test")
+                    if (test != it) {
+                        Log.e(TAG, "Parallelism: test : $test")
+                    }
+                    test++
                 }
-                test++
-            }
         }
         Log.e(TAG, "Parallelism: Collected in $time ms")
     }
