@@ -45,6 +45,75 @@ tools:context=".coroutines_flow.CoroutinesFlowActivity">
         android:padding="20dp"
         android:background="@drawable/back"
         android:text="flow_cancel" />
+
+    <TextView
+        android:id="@+id/FlowVSSequences1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="FlowVSSequences1" />
+
+    <TextView
+        android:id="@+id/FlowVSSequences2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="FlowVSSequences2" />
+
+    <TextView
+        android:id="@+id/tryFinally"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="try_finally" />
+
+    <TextView
+        android:id="@+id/onCompletionTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="onCompletionTest" />
+
+    <TextView
+        android:id="@+id/onCompletionCatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="onCompletionCatch" />
+
+    <TextView
+        android:id="@+id/onCompletionCatchFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="onCompletionCatchFirst" />
+
+    <TextView
+        android:id="@+id/onCompletionCatchFirstEach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:background="@drawable/back"
+        android:text="onCompletionCatchFirstEach" />
+
+
+    onCompletionCatchFirstEach
+
+
+
 </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
