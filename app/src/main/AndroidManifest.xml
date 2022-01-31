@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestCoroutines">
         <activity
+            android:name=".testRoomDao.TestRoomDaoActivity"
+            android:exported="true" />
+        <activity
             android:name=".JsonNormalGetActivity"
             android:exported="true" />
         <activity

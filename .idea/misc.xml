@@ -4,13 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/drawable/back.xml" value="0.18385416666666668" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_coroutines_flow.xml" value="0.10144927536231885" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_coroutines_flow.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_diff_method_test.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_diff_methon_test.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_json_normal_get.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_test.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_test123.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_test_room_dao.xml" value="0.26141078838174275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/testCoroutines/app/src/main/res/layout/activity_test_view_model_factory.xml" value="0.1" />
       </map>
     </option>

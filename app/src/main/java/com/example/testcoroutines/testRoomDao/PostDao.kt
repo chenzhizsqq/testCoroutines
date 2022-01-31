@@ -1,20 +1,23 @@
 package com.example.testcoroutines.testRoomDao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 
 //数据库各种操作
 @Dao
 interface PostDao {
     @Query("SELECT * FROM posts")
-    fun getAll(): List<Post>
+    suspend fun getAll(): List<Post>
 
-    @Insert
-    fun insertAll(vararg post: Post)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)    //找到相同的ID序列号，就直接替换
+    suspend fun insert(post: Post)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)    //找到相同的ID序列号，就直接替换
+    suspend fun insertAll(postList: List<Post>)
+
+    @Query("DELETE FROM posts")
+    fun deleteAll()
 
     @Delete
-    fun delete(post: Post)
+    suspend fun delete(post: Post)
 }

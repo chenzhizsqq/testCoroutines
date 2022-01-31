@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -67,8 +68,11 @@ dependencies {
     // Gson to convert raw JSON to pretty JSON
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    def room_version = "2.4.1" // check latest version from docs
+
     //room 数据
-    implementation 'androidx.room:room-common:2.3.0'
+    implementation 'androidx.room:room-common:2.4.1'
     //room Database 数据库
-    implementation 'androidx.room:room-ktx:2.3.0'
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
