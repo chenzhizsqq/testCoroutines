@@ -66,4 +66,9 @@ dependencies {
 
     // Gson to convert raw JSON to pretty JSON
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    //room 数据
+    implementation 'androidx.room:room-common:2.3.0'
+    //room Database 数据库
+    implementation 'androidx.room:room-ktx:2.3.0'
 }
