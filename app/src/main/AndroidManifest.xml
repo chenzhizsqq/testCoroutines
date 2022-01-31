@@ -20,6 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestCoroutines">
         <activity
+            android:name=".JsonNormalGetActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TestViewModelFactoryActivity"
+            android:exported="true" />
+        <activity
             android:name=".coroutines_flow.CoroutinesFlowActivity"
             android:exported="true" />
         <activity

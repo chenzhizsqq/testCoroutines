@@ -1,4 +1,4 @@
-package com.example.testcoroutines.test
+package com.example.testcoroutines.testViewModelFactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

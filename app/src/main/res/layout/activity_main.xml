@@ -20,7 +20,7 @@ tools:context=".MainActivity">
         android:padding="20dp"
         android:textSize="20sp"
         android:background="@drawable/back"
-        android:text="自己普通测试练习" />
+        android:text="拉下刷新，拉上更新 mvvm例子" />
 
     <TextView
         android:id="@+id/runBlocking_launch_withContext_async_doAsync"
@@ -39,6 +39,25 @@ tools:context=".MainActivity">
         android:textSize="20sp"
         android:background="@drawable/back"
         android:text="coroutines的flow" />
+
+    <TextView
+        android:id="@+id/TestViewModeActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:background="@drawable/back"
+        android:text="viewModel连接ViewModelProvider，Json的普通获取" />
+
+    <TextView
+        android:id="@+id/TestViewModelFactoryActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:background="@drawable/back"
+        android:text="viewModel连接ViewModelProvider，带上ViewModelFactory的创建" />
+
 
 
 </LinearLayout>

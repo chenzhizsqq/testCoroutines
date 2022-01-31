@@ -24,49 +24,12 @@ tools:context=".test.TestActivity">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <Button
-                android:id="@+id/json_test_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="json_test_button"
-                android:textColor="@android:color/black"
-                android:textSize="13sp" />
-            <Button
-                android:id="@+id/test_flow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="test_flow"
-                android:textColor="@android:color/black"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/json_code_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="json_code"
-                android:textColor="@android:color/black"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/json_results_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="json_results"
-                android:textColor="@android:color/black"
-                android:textSize="13sp" />
-
             <Button
                 android:id="@+id/jsonGetPosts_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="观察从json接收的数据，并把数据添加到下面的数列中。获取全部数据"
-                android:textColor="@android:color/black"
                 android:textSize="13sp" />
         </LinearLayout>
     </ScrollView>
@@ -77,7 +40,7 @@ tools:context=".test.TestActivity">
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="20dp">
 
         <androidx.recyclerview.widget.RecyclerView

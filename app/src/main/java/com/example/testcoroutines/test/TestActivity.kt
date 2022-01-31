@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testcoroutines.databinding.ActivityTestBinding
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+//拉下刷新，拉上更新 mvvm例子
 class TestActivity : AppCompatActivity() {
     private val TAG = "TestActivity"
     private lateinit var binding: ActivityTestBinding
@@ -28,33 +26,22 @@ class TestActivity : AppCompatActivity() {
     //private val viewModel = TestViewModel()       //不建议的创建模式
     lateinit var viewModel: TestViewModel          //建议的创建模式
 
-    //private val viewModel2 = TestViewModel2(1)    //不建议的创建模式
-    lateinit var viewModel2: TestViewModel2        //建议的创建模式
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        this.title = "拉下刷新，拉上更新 mvvm例子"
+
         //viewModel连接ViewModelProvider，普通创建
         viewModel = ViewModelProvider(this).get(TestViewModel::class.java)
 
-        //viewModel连接ViewModelProvider，带上ViewModelFactory的创建
-        viewModel2 =
-            ViewModelProvider(this, TestViewModel2Factory(1)).get(TestViewModel2::class.java)
-
-        binding.jsonTestButton.setOnClickListener {
-            jsonGet()
-        }
 
         binding.jsonGetPostsButton.setOnClickListener {
             testPostsAdapter.notifyDatClearData()
             viewModel.isLoading.value = true
             jsonGetAllPosts()
-        }
-
-        binding.testFlow.setOnClickListener {
-            test()
         }
 
         //绑定recyclerview的adapter
@@ -149,45 +136,11 @@ class TestActivity : AppCompatActivity() {
         Log.e(TAG, "throwable: $throwable")
     }
 
-    private fun jsonGet() {
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://my-json-server.typicode.com/")
-            .build()
-
-        val service = retrofit.create(GithubJsonService::class.java)
-
-        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = service.getResponse()
-
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    binding.jsonCodeTextview.text = response.code().toString()
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-
-                    //jsonOrg获取原来的json的样式
-                    val jsonOrg = gson.toJson(
-                        JsonParser.parseString(
-                            response.body()?.string()
-                        )
-                    )
-
-                    binding.jsonResultsTextview.text = jsonOrg
-
-                    //把Json通过gson，转成结构的数据
-                    val jsonData: TestData = gson.fromJson(jsonOrg, TestData::class.java)
-                    Log.e(TAG, "getMethodTest: jsonData.id: " + jsonData.id)
-                    Log.e(TAG, "getMethodTest: jsonData.title: " + jsonData.title)
-
-                }
-            }
-        }
-    }
-
     var job: Job? = null
 
     //https://github.com/chenzhizsqq/testJson/blob/main/db.json，"posts"那组数
     private fun jsonGetAllPosts() {
+        arrayIndex = 0
         Log.e(TAG, "jsonGetAllPosts: !!!")
         val retrofit = Retrofit.Builder()
             .baseUrl("https://my-json-server.typicode.com/")
@@ -208,6 +161,8 @@ class TestActivity : AppCompatActivity() {
                         viewModel.postsDataList.postValue(response.body())
 
                         viewModel.isLoading.value = false
+
+                        arrayIndex = response.body()?.size ?: 0
                     } catch (e: Exception) {
                         Log.e(TAG, "jsonGetPosts: ", e)
                     }
@@ -297,22 +252,4 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-
-    fun test() = runBlocking {
-
-        val result = arrayListOf<Int>()
-        for (index in 1..100) {
-            result.add(index)
-        }
-
-        result.asFlow()
-            .flatMapMerge {
-                flow {
-                    emit(it)
-                }.flowOn(Dispatchers.IO)
-            }
-            .collect {
-                Log.e(TAG, "test: it : $it")
-            }
-    }
 }

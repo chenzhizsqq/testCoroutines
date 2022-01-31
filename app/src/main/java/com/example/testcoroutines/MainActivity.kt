@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.test.setOnClickListener(this)
         binding.runBlockingLaunchWithContextAsyncDoAsync.setOnClickListener(this)
         binding.activityCoroutinesFlow.setOnClickListener(this)
+        binding.TestViewModelFactoryActivity.setOnClickListener(this)
+        binding.TestViewModeActivity.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -37,6 +39,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Intent(this@MainActivity, CoroutinesFlowActivity::class.java)
                 startActivity(intent)
             }
+            R.id.TestViewModelFactoryActivity -> {
+                val intent =
+                    Intent(this@MainActivity, TestViewModelFactoryActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.TestViewModeActivity -> {
+                val intent =
+                    Intent(this@MainActivity, JsonNormalGetActivity::class.java)
+                startActivity(intent)
+            }
+
+
         }
     }
 }
