@@ -21,7 +21,8 @@
             android:padding="20dp"
             android:textSize="20sp"
             android:background="@drawable/back"
-            android:text="拉下刷新，拉上更新 mvvm例子" />
+            android:text="拉下刷新，拉上更新 mvvm例子。
+            gson moshi mvvm retrofit" />
 
         <TextView
             android:id="@+id/runBlocking_launch_withContext_async_doAsync"
