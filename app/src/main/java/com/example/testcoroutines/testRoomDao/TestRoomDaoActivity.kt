@@ -34,7 +34,20 @@ class TestRoomDaoActivity : AppCompatActivity() {
         binding.dataInsertArray.setOnClickListener { dataInsertList() }
         binding.dataDeleteAll.setOnClickListener { dataDeleteAll() }
         binding.dataDelete.setOnClickListener { dataDelete() }
+        binding.dataCount.setOnClickListener { dataCount() }
 
+    }
+
+
+    private fun dataCount() {
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+
+            val postDao = db.postDao()
+
+            withContext(Dispatchers.Main) {
+                binding.resultsTextview.text = "count:" + postDao.count().toString()
+            }
+        }
     }
 
 
