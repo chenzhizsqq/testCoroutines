@@ -9,6 +9,9 @@ interface PostDao {
     @Query("SELECT * FROM posts")
     suspend fun getAll(): List<Post>
 
+    @Query("select * from posts where id = :id")
+    suspend fun getSelect(id: Int): List<Post>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)    //找到相同的ID序列号，就直接替换
     suspend fun insert(post: Post)
 
@@ -16,7 +19,7 @@ interface PostDao {
     suspend fun insertAll(postList: List<Post>)
 
     @Query("DELETE FROM posts")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Delete
     suspend fun delete(post: Post)

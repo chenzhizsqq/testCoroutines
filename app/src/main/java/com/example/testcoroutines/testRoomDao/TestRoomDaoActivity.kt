@@ -29,11 +29,27 @@ class TestRoomDaoActivity : AppCompatActivity() {
             .build()
 
         binding.dataGet.setOnClickListener { dataGet() }
+        binding.dataGetSelect.setOnClickListener { dataGetSelect() }
         binding.dataInsert.setOnClickListener { dataInsert() }
         binding.dataInsertArray.setOnClickListener { dataInsertList() }
         binding.dataDeleteAll.setOnClickListener { dataDeleteAll() }
         binding.dataDelete.setOnClickListener { dataDelete() }
 
+    }
+
+
+    private fun dataGetSelect() {
+        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+
+            val postDao = db.postDao()
+
+            posts = postDao.getSelect(1)
+            Log.e(TAG, "onCreate: posts:$posts")
+
+            withContext(Dispatchers.Main) {
+                binding.resultsTextview.text = posts.toString()
+            }
+        }
     }
 
 

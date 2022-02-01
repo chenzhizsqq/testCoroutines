@@ -21,15 +21,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="获取数据"
+            android:text="select 数据"
             android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/dataGetSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="select 数据 where"
+            android:textSize="13sp" />
+
+
 
         <Button
             android:id="@+id/dataInsert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="添加数据"
+            android:text="add 数据"
             android:textSize="13sp" />
 
         <Button
@@ -37,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="添加数据List"
+            android:text="add 数据 List"
             android:textSize="13sp" />
 
         <Button
@@ -45,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="删除全部数据"
+            android:text="delete all 数据"
             android:textSize="13sp" />
 
         <Button
@@ -53,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="删除个别数据"
+            android:text="delete 个别 数据"
             android:textSize="13sp" />
 
         <TextView
