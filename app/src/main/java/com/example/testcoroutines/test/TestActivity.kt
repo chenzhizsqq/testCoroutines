@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testcoroutines.databinding.ActivityTestBinding
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 //拉下刷新，拉上更新 mvvm例子
 class TestActivity : AppCompatActivity() {
@@ -41,7 +44,13 @@ class TestActivity : AppCompatActivity() {
         binding.jsonGetPostsButton.setOnClickListener {
             testPostsAdapter.notifyDatClearData()
             viewModel.isLoading.value = true
-            jsonGetAllPosts()
+            jsonGetAllGson()
+        }
+
+        binding.jsonGetPostsMoshiButton.setOnClickListener {
+            testPostsAdapter.notifyDatClearData()
+            viewModel.isLoading.value = true
+            jsonGetAllPostsMoshi()
         }
 
         //绑定recyclerview的adapter
@@ -139,7 +148,7 @@ class TestActivity : AppCompatActivity() {
     var job: Job? = null
 
     //https://github.com/chenzhizsqq/testJson/blob/main/db.json，"posts"那组数
-    private fun jsonGetAllPosts() {
+    private fun jsonGetAllGson() {
         arrayIndex = 0
         Log.e(TAG, "jsonGetAllPosts: !!!")
         val retrofit = Retrofit.Builder()
@@ -151,7 +160,49 @@ class TestActivity : AppCompatActivity() {
 
         viewModel.isLoading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = service.getResponsePosts()
+            val response = service.getResponseGson()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+
+                    try {
+
+                        //因为上面用上了.addConverterFactory，才可以直接联系LiveData.postValue。发送数据给postsLiveData
+                        viewModel.postsDataList.postValue(response.body())
+
+                        viewModel.isLoading.value = false
+
+                        arrayIndex = response.body()?.size ?: 0
+                    } catch (e: Exception) {
+                        Log.e(TAG, "jsonGetPosts: ", e)
+                    }
+                } else {
+                    Log.e(TAG, "jsonGetPosts: error:" + response.message())
+                }
+            }
+        }
+    }
+
+    private fun jsonGetAllPostsMoshi() {
+        arrayIndex = 0
+        Log.e(TAG, "jsonGetAllPosts: !!!")
+
+
+        val moshi = Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory())
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://my-json-server.typicode.com/")
+            .addConverterFactory(MoshiConverterFactory.create(moshi)) //把json转为gson，才可以直接用LiveData.postValue
+            .build()
+
+
+        val service = retrofit.create(GithubJsonService::class.java)
+
+
+        viewModel.isLoading.value = true
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = service.getResponseMoshi()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
 
@@ -187,7 +238,7 @@ class TestActivity : AppCompatActivity() {
         val service = retrofit.create(GithubJsonService::class.java)
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = service.getResponsePosts()
+            val response = service.getResponseGson()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     var lastIndex = arrayIndex + add
@@ -221,7 +272,7 @@ class TestActivity : AppCompatActivity() {
         val service = retrofit.create(GithubJsonService::class.java)
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = service.getResponsePosts()
+            val response = service.getResponseGson()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     if (arrayIndex >= response.body()!!.size) {

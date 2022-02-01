@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-tools:context=".test.TestActivity">
+    tools:context=".test.TestActivity">
 
 
     <ScrollView
@@ -23,13 +23,23 @@ tools:context=".test.TestActivity">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/jsonGetPosts_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="观察从json接收的数据，并把数据添加到下面的数列中。获取全部数据"
+                android:layout_margin="10dp"
+                android:text="获取全部数据 gson"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/jsonGetPosts_moshi_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="获取全部数据 moshi"
                 android:textSize="13sp" />
         </LinearLayout>
     </ScrollView>
@@ -64,8 +74,7 @@ tools:context=".test.TestActivity">
         android:layout_marginTop="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="100dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extendedFAB"

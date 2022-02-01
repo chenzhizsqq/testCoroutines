@@ -54,10 +54,11 @@ dependencies {
 
     //retrofit2
     //就是需要使用retrofit2，一定要添加的库
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
     //Retrofit Gson转换器
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //对应rxjava
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
@@ -67,6 +68,12 @@ dependencies {
 
     // Gson to convert raw JSON to pretty JSON
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Moshi
+    def moshi_version = '1.12.0'
+    implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
     def room_version = "2.4.1" // check latest version from docs
 
