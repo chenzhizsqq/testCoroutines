@@ -193,7 +193,7 @@ class TestActivity : AppCompatActivity() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://my-json-server.typicode.com/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi)) //把json转为gson，才可以直接用LiveData.postValue
+            .addConverterFactory(MoshiConverterFactory.create(moshi)) //把json转为moshi，才可以直接用LiveData.postValue
             .build()
 
 
