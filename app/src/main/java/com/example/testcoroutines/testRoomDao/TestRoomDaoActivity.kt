@@ -3,7 +3,7 @@ package com.example.testcoroutines.testRoomDao
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
+import androidx.lifecycle.lifecycleScope
 import com.example.testcoroutines.databinding.ActivityTestRoomDaoBinding
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -12,8 +12,10 @@ class TestRoomDaoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTestRoomDaoBinding
 
-    private lateinit var db: PostDatabase
     private lateinit var posts: List<Post>
+
+    // Obtain ViewModel from ViewModelProviders
+    private lateinit var viewModel: TestRoomDaoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +24,8 @@ class TestRoomDaoActivity : AppCompatActivity() {
 
         this.title = "Room Dao 普通使用"
 
-        //db初始化
-        db = Room.databaseBuilder(
-            applicationContext,
-            PostDatabase::class.java, DATABASE_NAME
-        )
-            .build()
+        viewModel = TestRoomDaoViewModel(this)
+        binding.viewModel = viewModel
 
         binding.dataGet.setOnClickListener { dataGet() }
         binding.dataGetSelect.setOnClickListener { dataGetSelect() }
@@ -37,14 +35,30 @@ class TestRoomDaoActivity : AppCompatActivity() {
         binding.dataDelete.setOnClickListener { dataDelete() }
         binding.dataCount.setOnClickListener { dataCount() }
         binding.dataFlow.setOnClickListener { dataFlow() }
+        binding.flowListenStart.setOnClickListener {
+            //开启协程对数据库的表进行监听
+            flowListen()
+        }
 
+
+    }
+
+    //开启协程对数据库的表进行监听
+    private fun flowListen() {
+        lifecycleScope.launchWhenCreated {
+            //每当Post表发生变化，Flow都会把Post列表发射出去，那么我们
+            //在collect中就可以获取到
+            viewModel.getListFlow().collect {
+                binding.flowListenResult.text = it.toString()
+            }
+        }
     }
 
 
     private fun dataCount() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             withContext(Dispatchers.Main) {
                 binding.resultsTextview.text = "count:" + postDao.count().toString()
@@ -56,7 +70,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
     private fun dataFlow() {
         runBlocking {
             flow {
-                val postDao = db.postDao()
+                val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
                 emit(postDao)
             }
                 .onStart { Log.e(TAG, "flowViewModel: Starting flow") }
@@ -73,7 +87,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
     private fun dataGetSelect() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             posts = postDao.getSelect(1)
             Log.e(TAG, "onCreate: posts:$posts")
@@ -88,7 +102,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
     private fun dataDelete() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             val newPost = Post(1, "1", "1")
             postDao.delete(newPost)
@@ -106,7 +120,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
     private fun dataDeleteAll() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
             postDao.deleteAll()
 
             posts = postDao.getAll()
@@ -122,7 +136,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
     private fun dataGet() {
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             posts = postDao.getAll()
             Log.e(TAG, "onCreate: posts:$posts")
@@ -138,7 +152,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             var newPost = Post(1, "1", "1")
             postDao.insert(newPost)
@@ -164,7 +178,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
 
-            val postDao = db.postDao()
+            val postDao = PostDatabase.getInstance(this@TestRoomDaoActivity).postDao()
 
             val postList = arrayListOf<Post>()
 

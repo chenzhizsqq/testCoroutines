@@ -1,105 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".testRoomDao.TestRoomDaoActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.testcoroutines.testRoomDao.TestRoomDaoViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".testRoomDao.TestRoomDaoActivity">
 
-
-        <Button
-            android:id="@+id/dataGet"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="select 数据"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/dataFlow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="data 的 Flow 形式，获取"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/dataGetSelect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="select 数据 where"
-            android:textSize="13sp" />
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/dataInsert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="add 数据"
-            android:textSize="13sp" />
+            <Button
+                android:id="@+id/dataGet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="select 数据"
+                android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/dataInsertArray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="add 数据 List"
-            android:textSize="13sp" />
+            <Button
+                android:id="@+id/dataFlow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="data 的 Flow 形式，获取"
+                android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/dataCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="数据 Count"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/dataDeleteAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="delete all 数据"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/dataDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="delete 个别 数据"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="error:null"
-            android:textColor="@android:color/black"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/results_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="results"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/dataGetSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="select 数据 where"
+                android:textSize="13sp" />
 
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/dataInsert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="add 数据"
+                android:textSize="13sp" />
 
-</androidx.core.widget.NestedScrollView>
+            <Button
+                android:id="@+id/dataInsertArray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="add 数据 List"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/dataCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="数据 Count"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/dataDeleteAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="delete all 数据"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/dataDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="delete 个别 数据"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="error:null"
+                android:textColor="@android:color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/results_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="results"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/flowListenStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="开始 flow 监听"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/flowListenResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:hint="监听后，得到的结果"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

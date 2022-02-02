@@ -1,6 +1,9 @@
 package com.example.testcoroutines.testRoomDao
 
 import androidx.room.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 
 //数据库各种操作
@@ -8,6 +11,9 @@ import androidx.room.*
 interface PostDao {
     @Query("SELECT * FROM posts")
     suspend fun getAll(): List<Post>
+
+    @Query("SELECT * FROM posts")
+    fun getAllFlow(): Flow<List<Post>>
 
     @Query("select * from posts where id = :id")
     suspend fun getSelect(id: Int): List<Post>
@@ -26,4 +32,8 @@ interface PostDao {
 
     @Delete
     suspend fun delete(post: Post)
+
+
+    @ExperimentalCoroutinesApi
+    suspend fun getAllDistinctUntilChanged() = getAllFlow().distinctUntilChanged()
 }
