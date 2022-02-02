@@ -40,7 +40,16 @@
             android:padding="20dp"
             android:textSize="20sp"
             android:background="@drawable/back"
-            android:text="coroutines的flow" />
+            android:text="coroutines的flow 的各种样式" />
+
+        <TextView
+            android:id="@+id/TestFlowActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:background="@drawable/back"
+            android:text="coroutines的flow 的mvvm" />
 
         <TextView
             android:id="@+id/TestViewModeActivity"

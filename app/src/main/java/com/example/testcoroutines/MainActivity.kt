@@ -9,6 +9,7 @@ import com.example.testcoroutines.databinding.ActivityMainBinding
 import com.example.testcoroutines.runBlocking_launch_withContext_async_doAsync.DiffMethodTestActivity
 import com.example.testcoroutines.test.TestActivity
 import com.example.testcoroutines.testRoomDao.TestRoomDaoActivity
+import com.example.testcoroutines.testflow.TestFlowActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.TestViewModelFactoryActivity.setOnClickListener(this)
         binding.TestViewModeActivity.setOnClickListener(this)
         binding.TestRoomDaoActivity.setOnClickListener(this)
+        binding.TestFlowActivity.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -39,6 +41,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.activity_coroutines_flow -> {
                 val intent =
                     Intent(this@MainActivity, CoroutinesFlowActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.TestFlowActivity -> {
+                val intent =
+                    Intent(this@MainActivity, TestFlowActivity::class.java)
                 startActivity(intent)
             }
             R.id.TestViewModelFactoryActivity -> {

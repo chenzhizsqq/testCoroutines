@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestCoroutines">
         <activity
+            android:name=".testflow.TestFlowActivity"
+            android:exported="true"/>
+        <activity
             android:name=".testRoomDao.TestRoomDaoActivity"
             android:exported="true" />
         <activity
