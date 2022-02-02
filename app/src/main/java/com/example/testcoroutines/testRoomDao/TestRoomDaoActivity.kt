@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.example.testcoroutines.databinding.ActivityTestRoomDaoBinding
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 class TestRoomDaoActivity : AppCompatActivity() {
 
@@ -35,6 +36,7 @@ class TestRoomDaoActivity : AppCompatActivity() {
         binding.dataDeleteAll.setOnClickListener { dataDeleteAll() }
         binding.dataDelete.setOnClickListener { dataDelete() }
         binding.dataCount.setOnClickListener { dataCount() }
+        binding.dataFlow.setOnClickListener { dataFlow() }
 
     }
 
@@ -47,6 +49,23 @@ class TestRoomDaoActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 binding.resultsTextview.text = "count:" + postDao.count().toString()
             }
+        }
+    }
+
+
+    private fun dataFlow() {
+        runBlocking {
+            flow {
+                val postDao = db.postDao()
+                emit(postDao)
+            }
+                .onStart { Log.e(TAG, "flowViewModel: Starting flow") }
+                .onEach {
+                    binding.resultsTextview.text = "dataFlow:" + it.getAll().toString()
+                }
+                .catch { binding.error.text = it.message }
+                .onCompletion { if (it == null) Log.e(TAG, "Completed successfully") }
+                .collect()
         }
     }
 
