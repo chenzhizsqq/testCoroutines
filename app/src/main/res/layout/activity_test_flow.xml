@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.testcoroutines.testflow.TestFlowViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -30,12 +33,21 @@
                 android:text="flow全部部分都有的简单样式"
                 android:textSize="13sp" />
 
+
+            <Button
+                android:id="@+id/flowAllPart2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="flow全部部分都有的简单样式2"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="error:null"
+                android:hint="error:null"
                 android:textColor="@android:color/black"
                 android:textSize="13sp" />
 
@@ -44,7 +56,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="results"
+                android:hint="flowAllPart results"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+            <Button
+                android:id="@+id/flowViewModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="flow mvvm"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/results_viewModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@{viewModel.testFlowDataList.toString()}"
+                android:hint="flowViewModel:result"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 

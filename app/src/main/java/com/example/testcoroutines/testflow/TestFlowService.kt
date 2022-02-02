@@ -17,4 +17,8 @@ interface TestFlowService {
     @GET("/chenzhizsqq/testJson/posts")
     suspend fun getFlowGson(): List<TestFlowData>
 
+
+    companion object {
+        private const val TAG = "TestFlowService"
+    }
 }
