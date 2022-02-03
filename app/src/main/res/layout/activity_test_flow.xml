@@ -42,6 +42,15 @@
                 android:text="flow全部部分都有的简单样式2"
                 android:textSize="13sp" />
 
+
+            <Button
+                android:id="@+id/flowAllPartJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="flow 带上 Job CoroutineScope"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/error"
                 android:layout_width="wrap_content"
