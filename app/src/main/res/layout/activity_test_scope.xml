@@ -5,88 +5,101 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity">
+    tools:context=".TestScopeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="拉下刷新，拉上更新 mvvm例子。
-            gson moshi mvvm retrofit" />
+            android:hint="GlobalScope:整个App的协程" />
 
         <TextView
-            android:id="@+id/runBlocking_launch_withContext_async_doAsync"
+            android:id="@+id/printGlobalScopeWithIO"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="runBlocking， launch ，withContext ，async，doAsync 之间的简单区别" />
+            android:text="GlobalScope With IO" />
 
         <TextView
-            android:id="@+id/TestScopeActivity"
+            android:id="@+id/printGlobalScopeWithMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="GlobalScope vs CoroutineScope vs lifecycleScope" />
+            android:text="GlobalScope With Main" />
+
+        <Button
+            android:id="@+id/stopGlobalScope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="停止GlobalScope"
+            android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/activity_coroutines_flow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="coroutines的flow 的各种样式" />
+            android:hint="CoroutineScope:和GlobalScope唯一区别就是，可以不用加上一个job，只要在退出时候加上cancel()。就可以把全部CoroutineScope清除掉。" />
 
         <TextView
-            android:id="@+id/TestFlowActivity"
+            android:id="@+id/printCoroutineScope"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="coroutines的flow 的mvvm" />
+            android:text="CoroutineScope" />
 
         <TextView
-            android:id="@+id/TestViewModeActivity"
+            android:id="@+id/printCoroutineScopeWithMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="viewModel连接ViewModelProvider，Json的普通获取" />
+            android:text="CoroutineScope With Main" />
 
         <TextView
-            android:id="@+id/TestViewModelFactoryActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="viewModel连接ViewModelProvider，带上ViewModelFactory的创建" />
+            android:hint="LifecycleScope:当前Activity或Fragment's lifCycle 的协程" />
 
         <TextView
-            android:id="@+id/TestRoomDaoActivity"
+            android:id="@+id/printLifecycleScope"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:textSize="20sp"
+            android:padding="20dp"
             android:background="@drawable/back"
-            android:text="Room Dao 普通使用" />
+            android:text="LifecycleScope" />
 
+        <TextView
+            android:id="@+id/printLifecycleScopeWithIO"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:background="@drawable/back"
+            android:text="LifecycleScope With IO" />
 
     </LinearLayout>
 

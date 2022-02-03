@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.TestViewModeActivity.setOnClickListener(this)
         binding.TestRoomDaoActivity.setOnClickListener(this)
         binding.TestFlowActivity.setOnClickListener(this)
+        binding.TestScopeActivity.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -38,6 +39,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Intent(this@MainActivity, DiffMethodTestActivity::class.java)
                 startActivity(intent)
             }
+
+            R.id.TestScopeActivity -> {
+                val intent =
+                    Intent(this@MainActivity, TestScopeActivity::class.java)
+                startActivity(intent)
+            }
+
             R.id.activity_coroutines_flow -> {
                 val intent =
                     Intent(this@MainActivity, CoroutinesFlowActivity::class.java)
